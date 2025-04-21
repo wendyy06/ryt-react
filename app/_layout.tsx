@@ -70,7 +70,6 @@ export default function RootLayout() {
             <ThemeProvider
               value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
             >
-              <StatusBar hidden />
               <App />
             </ThemeProvider>
           </QueryClientProvider>

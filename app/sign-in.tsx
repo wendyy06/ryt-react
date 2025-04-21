@@ -66,10 +66,7 @@ export default function SignIn() {
         marginHorizontal: 20,
       }}
     >
-      <Image
-        source={require("@/assets/images/react-logo.png")}
-        style={styles.logo}
-      />
+      <Image source={require("@/assets/images/icon.png")} style={styles.logo} />
       <Controller
         name="username"
         control={control}

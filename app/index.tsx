@@ -1,10 +1,11 @@
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
 import * as React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   const router = useRouter();
+  const { width, height } = Dimensions.get("window");
   return (
     <View style={styles.container}>
       <View
@@ -19,7 +20,10 @@ export default function Page() {
         <View style={styles.imageContainerLeft}>
           <Image
             source={require("@/assets/images/onboard.webp")}
-            style={styles.imageLeft}
+            style={[
+              styles.imageLeft,
+              { height: height * 0.4, width: width * 0.8 },
+            ]}
           />
         </View>
       </View>
@@ -71,8 +75,6 @@ const styles = StyleSheet.create({
   },
 
   imageLeft: {
-    width: "100%",
-    height: "100%",
     resizeMode: "cover",
     borderRadius: 20,
     position: "absolute",
