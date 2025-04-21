@@ -1,21 +1,18 @@
-import * as React from "react";
-import {
-  StyleSheet,
-  Image,
-  Platform,
-  ScrollView,
-  View,
-  Text,
-  RefreshControl,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
 import { getTransactions } from "@/services";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import * as LocalAuthentication from "expo-local-authentication";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import * as React from "react";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function Transactions() {
   const [revealAmount, setRevealAmount] = React.useState<boolean>(false);

@@ -1,18 +1,8 @@
-import {
-  Image,
-  StyleSheet,
-  Platform,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useSession } from "@/ctx";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface ListItem {
   title: string;

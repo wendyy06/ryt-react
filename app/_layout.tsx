@@ -1,19 +1,17 @@
 import {
   DarkTheme,
   DefaultTheme,
-  Theme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import "react-native-reanimated";
-import { Slot } from "expo-router";
-import { SessionProvider, useSession } from "../ctx";
 import { KeyboardAvoidingView, SafeAreaView } from "react-native";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import "react-native-reanimated";
+import { SessionProvider, useSession } from "../ctx";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 

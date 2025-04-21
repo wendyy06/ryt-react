@@ -1,17 +1,7 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import * as React from "react";
-import SignIn from "./sign-in";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ImageSourcePropType,
-  ViewStyle,
-} from "react-native";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
+import * as React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   const router = useRouter();

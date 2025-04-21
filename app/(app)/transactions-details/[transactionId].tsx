@@ -1,9 +1,9 @@
-import { useLocalSearchParams, Stack } from "expo-router";
+import { getTransactionById, type TransactionDetailsProps } from "@/services";
+import { useQuery } from "@tanstack/react-query";
+import * as LocalAuthentication from "expo-local-authentication";
+import { Stack, useLocalSearchParams } from "expo-router";
 import * as React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import * as LocalAuthentication from "expo-local-authentication";
-import { useQuery } from "@tanstack/react-query";
-import { type TransactionDetailsProps, getTransactionById } from "@/services";
 
 export default function TransactionDetails() {
   const { transactionId } = useLocalSearchParams();

@@ -1,20 +1,18 @@
-import * as React from "react";
-import { router } from "expo-router";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Platform,
-  Image,
-  StyleSheet,
-} from "react-native";
 import Button from "@/components/Button";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import * as React from "react";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import { useSession } from "../ctx";
-import { useForm, Controller } from "react-hook-form";
 import * as LocalAuthentication from "expo-local-authentication";
+import { Controller, useForm } from "react-hook-form";
+import { useSession } from "../ctx";
 
 interface FormValues {
   username: string;
