@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ryt-react",
-    "slug": "ryt-react",
+    "name": "React Bank",
+    "slug": "React Bank",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
