@@ -2,8 +2,13 @@ import { useContext, createContext, type PropsWithChildren } from "react";
 import { useStorageState } from "./useStorageState";
 import { router } from "expo-router";
 
+interface SignInProps {
+  username?: string;
+  password: string;
+}
+
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (credentials?: SignInProps | "biometric") => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
@@ -32,10 +37,22 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          // Perform sign-in logic here
-          setSession("xxx");
-          router.push("/(app)"); // Redirect to the home page after sign-in
+        signIn: (credentials?: SignInProps | "biometric") => {
+          if (credentials === "biometric") {
+            setSession("xxx");
+            router.push("/(app)");
+            return;
+          }
+
+          if (
+            credentials?.username === "admin" &&
+            credentials?.password === "Admin123"
+          ) {
+            setSession("xxx");
+            router.push("/(app)");
+          } else {
+            alert("Invalid credentials");
+          }
         },
         signOut: () => {
           setSession(null);

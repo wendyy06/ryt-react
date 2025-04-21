@@ -1,77 +1,141 @@
-import { Image, StyleSheet, Platform, Text } from "react-native";
-
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useSession } from "@/ctx";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Link, useRouter } from "expo-router";
+
+interface ListItem {
+  title: string;
+  desc: string;
+  href: any;
+}
+
+const lists: ListItem[] = [
+  {
+    title: "Transactions",
+    desc: "View your transactions",
+    href: "transactions",
+  },
+  {
+    title: "Transfer",
+    desc: "Transfer money to another account",
+    href: "",
+  },
+  {
+    title: "Pay",
+    desc: "Pay your bills",
+    href: "",
+  },
+  {
+    title: "Settings",
+    desc: "Manage your account settings",
+    href: "",
+  },
+  {
+    title: "Help",
+    desc: "Get help and support",
+    href: "",
+  },
+];
 
 export default function HomeScreen() {
   const { signOut } = useSession();
+  const router = useRouter();
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
-    >
+    <ScrollView style={styles.headerContainer}>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <Text>Welcome,</Text>
+        <MaterialCommunityIcons
+          name="logout"
+          size={15}
+          color="black"
+          onPress={() => signOut()}
+        />
+      </ThemedView>
+      <ThemedView style={styles.infoContainer}>
+        <Text style={{ fontWeight: "400", fontSize: 16, color: "white" }}>
+          Saving Account
+        </Text>
+        <Text style={{ fontWeight: "400", fontSize: 12, color: "grey" }}>
+          123 456 7890
+        </Text>
         <Text
-          onPress={() => {
-            signOut();
+          style={{
+            fontWeight: "600",
+            fontSize: 20,
+            color: "white",
+            marginVertical: 10,
           }}
         >
-          Sign Out
+          RM 9999.99
         </Text>
-        <HelloWave />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
+      <ThemedView style={styles.linksContainer}>
+        {lists.map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              style={styles.linksWrapper}
+              onPress={() => {
+                router.push(item.href);
+              }}
+            >
+              <ThemedView>
+                <Text>{item.title}</Text>
+                <Text style={{ fontSize: 12, color: "grey" }}>{item.desc}</Text>
+              </ThemedView>
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={20}
+                color="black"
+              />
+            </TouchableOpacity>
+          );
+        })}
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    padding: 20,
+    backgroundColor: "white",
+  },
   titleContainer: {
+    backgroundColor: "transparent",
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 8,
+  },
+  infoContainer: {
+    backgroundColor: "#0000e6",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 20,
+  },
+  linksContainer: {
+    marginTop: 20,
+    flexDirection: "column",
+  },
+  linksWrapper: {
+    marginVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   stepContainer: {
     gap: 8,

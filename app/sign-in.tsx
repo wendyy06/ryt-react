@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  Image,
+  StyleSheet,
 } from "react-native";
 import Button from "@/components/Button";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -20,7 +22,8 @@ interface FormValues {
 }
 
 export default function SignIn() {
-  const { signIn } = useSession();
+  const { session, signIn } = useSession();
+  const [isFocus, setIsFocus] = React.useState<boolean>(false);
 
   const {
     control,
@@ -41,7 +44,7 @@ export default function SignIn() {
         })
           .then((data) => {
             if (data.success) {
-              signIn();
+              signIn("biometric");
             }
           })
           .catch((err) => {
@@ -52,8 +55,9 @@ export default function SignIn() {
   };
 
   React.useEffect(() => {
+    if (session) return;
     isEnrolled();
-  }, []);
+  }, [session]);
 
   return (
     <View
@@ -62,9 +66,12 @@ export default function SignIn() {
         justifyContent: "center",
         alignItems: "center",
         marginHorizontal: 20,
-        position: "relative",
       }}
     >
+      <Image
+        source={require("@/assets/images/react-logo.png")}
+        style={styles.logo}
+      />
       <Controller
         name="username"
         control={control}
@@ -78,7 +85,11 @@ export default function SignIn() {
                   borderWidth: 1,
                   borderColor: fieldState.error ? "red" : "grey",
                   padding: 10,
+                  borderRadius: 10,
                 }}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                value={field.value}
               />
             </View>
           );
@@ -98,7 +109,11 @@ export default function SignIn() {
                   borderWidth: 1,
                   borderColor: fieldState.error ? "red" : "grey",
                   padding: 10,
+                  borderRadius: 10,
                 }}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                value={field.value}
               />
             </View>
           );
@@ -110,17 +125,18 @@ export default function SignIn() {
         type="primary"
         isLoading={false}
         disabled={!isValid}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 20, backgroundColor: "#000" }}
         textStyle={{ color: "white" }}
-        onClick={() => {
-          signIn();
-        }}
+        onClick={handleSubmit((data) => {
+          console.log("data", data);
+          signIn({ username: data.username, password: data.password });
+        })}
       />
 
       <TouchableOpacity
         style={{
           position: "absolute",
-          bottom: 20,
+          bottom: 50,
         }}
         onPress={() => {
           isEnrolled();
@@ -135,3 +151,11 @@ export default function SignIn() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 100,
+    height: 100,
+    marginVertical: 20,
+  },
+});

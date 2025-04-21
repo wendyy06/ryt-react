@@ -1,6 +1,7 @@
 import {
   DarkTheme,
   DefaultTheme,
+  Theme,
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -32,10 +33,10 @@ const App = () => {
   return (
     <Stack
       screenOptions={{
-        headerBackTitle: "<",
         headerShown: false,
         contentStyle: {
           flex: 1,
+          backgroundColor: "white",
         },
       }}
     >
@@ -65,18 +66,18 @@ export default function RootLayout() {
 
   return (
     <SessionProvider>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-        <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <QueryClientProvider client={queryClient}>
             <ThemeProvider
               value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
             >
+              <StatusBar hidden />
               <App />
-              {/* <StatusBar style="auto" /> */}
             </ThemeProvider>
           </QueryClientProvider>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </SessionProvider>
   );
 }

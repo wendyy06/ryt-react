@@ -10,72 +10,54 @@ import {
   ImageSourcePropType,
   ViewStyle,
 } from "react-native";
-
-interface LandingProps {
-  title: string;
-  desc: string;
-  imageLeft: ImageSourcePropType;
-  imageRight: ImageSourcePropType;
-  style?: ViewStyle;
-}
+import Button from "@/components/Button";
+import { useRouter } from "expo-router";
 
 export default function Page() {
-  const [pageCount, setPageCount] = React.useState(1);
-
-  const { title, desc, imageLeft, imageRight }: LandingProps =
-    React.useMemo(() => {
-      switch (pageCount) {
-        case 1:
-          return {
-            title: "Find your table for any occasion",
-            desc: "An unrivaled selection of restaurants for whatever you want.",
-            imageLeft: require("@/assets/images/onboard-2.jpg"),
-            imageRight: require("@/assets/images/onboard-1.jpg"),
-          };
-        default:
-          return {
-            title: "",
-            desc: "",
-            imageLeft: undefined,
-            imageRight: undefined,
-          };
-      }
-    }, [pageCount]);
+  const router = useRouter();
   return (
-    // <View style={styles.container}>
-    //   <View
-    //     style={{
-    //       marginBottom: 30,
-    //       display: "flex",
-    //       flexDirection: "row",
-    //       flex: 1,
-    //       position: "relative",
-    //     }}
-    //   >
-    //     <View style={styles.imageContainerLeft}>
-    //       <Image source={imageLeft} style={styles.imageLeft} />
-    //     </View>
-    //     <View style={styles.imageContainerRight}>
-    //       <Image source={imageRight} style={styles.imageRight} />
-    //     </View>
-    //   </View>
+    <View style={styles.container}>
+      <View
+        style={{
+          marginBottom: 30,
+          display: "flex",
+          flexDirection: "row",
+          flex: 1,
+          position: "relative",
+        }}
+      >
+        <View style={styles.imageContainerLeft}>
+          <Image
+            source={require("@/assets/images/onboard.webp")}
+            style={styles.imageLeft}
+          />
+        </View>
+      </View>
 
-    //   <View style={{ margin: 20, flex: 1 }}>
-    //     <View style={{ width: "80%" }}>
-    //       <Text style={styles.title}>{title}</Text>
-    //       <Text style={styles.desc}>{desc}</Text>
-    //     </View>
-    //     <View
-    //       style={{
-    //         display: "flex",
-    //         flexDirection: "row",
-    //         justifyContent: "space-between",
-    //         marginTop: 20,
-    //       }}
-    //     ></View>
-    //   </View>
-    // </View>
-    <SignIn />
+      <View style={{ margin: 20, flex: 1 }}>
+        <View style={{ width: "100%" }}>
+          <Text style={styles.title}>Effortless Bank Simplified</Text>
+          <Text style={styles.desc}>
+            Experience seamless financial management makes managing your
+            finances easy and intuitive.
+          </Text>
+        </View>
+        <Button
+          label="Starts Now!"
+          type="primary"
+          onClick={() => {
+            router.push("/sign-in");
+          }}
+          textStyle={{ color: "white" }}
+          style={{
+            marginTop: 20,
+            backgroundColor: "#000",
+            padding: 10,
+            borderRadius: 5,
+          }}
+        />
+      </View>
+    </View>
   );
 }
 
@@ -99,8 +81,8 @@ const styles = StyleSheet.create({
   },
 
   imageLeft: {
-    width: "110%",
-    height: "110%",
+    width: "100%",
+    height: "100%",
     resizeMode: "cover",
     borderRadius: 20,
     position: "absolute",
@@ -108,43 +90,16 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "5deg" }, { translateY: 20 }, { translateX: 10 }],
   },
 
-  imageRight: {
-    width: "110%",
-    height: "110%",
-    resizeMode: "cover",
-    borderRadius: 20,
-    position: "absolute",
-    inset: 0,
-    transform: [
-      { rotate: "-10deg" },
-      { translateX: -120 },
-      { translateY: -70 },
-    ],
-  },
-
-  imageContainerRight: {
-    position: "absolute",
-    right: 0,
-    zIndex: 10,
-    borderColor: "grey",
-    borderWidth: 1,
-    borderRadius: 20,
-    width: 250,
-    height: 250,
-    transform: [{ rotate: "5deg" }, { translateX: 150 }, { translateY: 110 }],
-  },
   title: {
     fontSize: 40,
     fontWeight: "bold",
     color: "black",
-    lineHeight: 50,
     letterSpacing: 2,
   },
   desc: {
     fontSize: 13,
     color: "black",
     lineHeight: 30,
-    letterSpacing: 1,
     marginTop: 10,
   },
   buttonContainer: {
