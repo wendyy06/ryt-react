@@ -10,20 +10,24 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { getTransaction } from "@/services";
+import { getTransactions } from "@/services";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import * as LocalAuthentication from "expo-local-authentication";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function Transactions() {
+  const [revealAmount, setRevealAmount] = React.useState<boolean>(false);
+  const router = useRouter();
+
   const {
     data: transactions,
     isLoading,
     refetch,
   } = useQuery({
     queryKey: ["transactions"],
-    queryFn: getTransaction,
+    queryFn: getTransactions,
     refetchOnWindowFocus: false,
   });
 
@@ -56,12 +60,13 @@ export default function Transactions() {
     },
   });
 
-  const [revealAmount, setRevealAmount] = React.useState<boolean>(false);
-
   return (
     <FlatList
       data={transactions}
-      contentContainerStyle={{ paddingBottom: 100, backgroundColor: "#fff" }}
+      contentContainerStyle={{
+        paddingBottom: 50,
+        backgroundColor: "#fff",
+      }}
       refreshControl={
         <RefreshControl
           refreshing={isLoading}
@@ -73,79 +78,84 @@ export default function Transactions() {
       }
       renderItem={({ item, index }) => {
         const color = item.type === "debit" ? "#EC2224" : "#039855";
-        const amount = item.type === "debit" ? item.amount : `+${item.amount}`;
+        const amount =
+          item.type === "debit" ? `- RM${item.amount}` : `+ RM${item.amount}`;
         return (
-          <View
-            style={{
-              padding: 10,
-              borderRadius: 10,
-              flexDirection: "row",
-              // shadowColor: "#fff",
-              // shadowOffset: {
-              //   width: 0,
-              //   height: 2,
-              // },
-              // shadowOpacity: 0.25,
-              // shadowRadius: 3.84,
-
-              // elevation: 5,
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
-              borderBottomWidth: 1,
-              borderColor: "#EFEFEF",
+          <TouchableOpacity
+            onPress={() => {
+              router.push(`/transactions-details/${item.id}`);
             }}
           >
             <View
               style={{
-                flex: 1,
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "center",
+                padding: 12,
+                borderRadius: 10,
+                flexDirection: "row",
+                shadowColor: "#fff",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+                borderBottomWidth: 1,
+                borderColor: "#EFEFEF",
               }}
             >
-              <Text
-                style={{ fontSize: 12, fontWeight: "400", color: "#000" }}
-                numberOfLines={2}
-                adjustsFontSizeToFit
-              >
-                {item.desc}
-              </Text>
-              <Text
+              <View
                 style={{
-                  fontSize: 12,
-                  fontWeight: "300",
-                  color: "#3C3C3C",
+                  flex: 1,
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "center",
                 }}
-                numberOfLines={1}
               >
-                {dayjs(item.createdAt).format("HH:mm  @  DD MMM, YYYY")}
-              </Text>
-            </View>
+                <Text
+                  style={{ fontSize: 14, fontWeight: "400", color: "#000" }}
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                >
+                  {item.desc}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "300",
+                    color: "#3C3C3C",
+                  }}
+                  numberOfLines={1}
+                >
+                  {dayjs(item.createdAt).format("HH:mm  @  DD MMM, YYYY")}
+                </Text>
+              </View>
 
-            <View
-              style={{
-                flexDirection: "column",
-                flex: 0.3,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
+              <View
                 style={{
-                  fontSize: 15,
-                  color: color,
-                  paddingBottom: 2,
+                  flexDirection: "column",
+                  flex: 0.3,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-                adjustsFontSizeToFit
-                numberOfLines={1}
               >
-                {revealAmount ? amount : "****"}
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: color,
+                    paddingBottom: 2,
+                  }}
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                >
+                  {revealAmount ? amount : "****"}
+                </Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         );
       }}
       ItemSeparatorComponent={() => (
-        <View style={{ height: 0.5, backgroundColor: "grey" }} />
+        <View style={{ height: 0.1, backgroundColor: "grey" }} />
       )}
       ListHeaderComponent={() => (
         <View
@@ -153,7 +163,14 @@ export default function Transactions() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            margin: 10,
+            padding: 12,
+            paddingRight: 20,
+            elevation: 2,
+            shadowColor: "black",
+            shadowOpacity: 0.26,
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 10,
+            backgroundColor: "white",
           }}
         >
           <Text
@@ -165,11 +182,7 @@ export default function Transactions() {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              if (revealAmount) {
-                setRevealAmount(false);
-              } else {
-                biometicMutate();
-              }
+              revealAmount ? setRevealAmount(false) : biometicMutate();
             }}
           >
             <MaterialCommunityIcons
@@ -188,7 +201,9 @@ export default function Transactions() {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontWeight: "600", marginTop: 20 }}>No results</Text>
+          <Text style={{ fontWeight: "600", marginTop: 20 }}>
+            No transaction
+          </Text>
         </View>
       )}
     />
