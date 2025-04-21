@@ -22,7 +22,6 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome!</ThemedText>
         <Text
           onPress={() => {
-            // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
             signOut();
           }}
         >

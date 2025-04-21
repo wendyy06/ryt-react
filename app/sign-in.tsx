@@ -8,16 +8,11 @@ import {
   Platform,
 } from "react-native";
 import Button from "@/components/Button";
-import { Entypo } from "@expo/vector-icons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { useSession } from "../ctx";
 import { useForm, Controller } from "react-hook-form";
 import * as LocalAuthentication from "expo-local-authentication";
-
-interface PhoneInputValue {
-  countryCode: string;
-  phoneNumber: string;
-}
 
 interface FormValues {
   username: string;
@@ -34,18 +29,7 @@ export default function SignIn() {
     formState: { isValid },
   } = useForm<FormValues>({
     mode: "onChange",
-    // defaultValues: { mobile: { countryCode: "MY", phoneNumber: "" } },
   });
-
-  const validatePhoneNumber = (value: String) => {
-    if (!value) {
-      return "This field is required";
-    }
-    if (value.startsWith("0")) {
-      return "Phone number should not start with '0'";
-    }
-    return true;
-  };
 
   const isEnrolled = async () => {
     await LocalAuthentication.isEnrolledAsync().then((data) => {
@@ -142,8 +126,8 @@ export default function SignIn() {
           isEnrolled();
         }}
       >
-        <Entypo
-          name={Platform.OS === "android" ? "fingerprint" : "emoji-happy"}
+        <MaterialCommunityIcons
+          name={Platform.OS === "android" ? "fingerprint" : "face-recognition"}
           size={24}
           color="black"
         />

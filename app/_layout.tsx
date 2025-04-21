@@ -10,11 +10,9 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { Slot } from "expo-router";
-import { SessionProvider } from "../ctx";
+import { SessionProvider, useSession } from "../ctx";
 import { KeyboardAvoidingView, SafeAreaView } from "react-native";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
-import { useSession } from "../ctx";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
